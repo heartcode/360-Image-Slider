@@ -1,0 +1,62 @@
+html, body {
+  background:#ffffff;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+.threesixty_view_wrapper {
+	position:absolute;
+	top:50%;
+	left:50%;
+	width:960px;
+	height: 600px;
+	margin-left:-480px;
+	margin-top:-250px;
+}
+
+@media	screen and (max-device-width: 1024px) and (orientation:portrait) {
+		.threesixty_view_wrapper {
+			width:720px;
+			height:450px;
+			margin-left:-360px;
+			margin-top:-225px;
+		}
+}
+
+@media	screen and (max-device-width: 480px) and (orientation:landscape),
+		screen and (-webkit-min-device-pixel-ratio: 2) and (orientation:landscape) {
+		.threesixty_view_wrapper {
+			width:360px;
+			height:225px;
+			margin-left:-180px;
+			margin-top:-113px;
+		}
+}
+
+@media	screen and (max-device-width: 480px) and (orientation:portrait),
+		screen and (-webkit-min-device-pixel-ratio: 2) and (orientation:portrait) {
+		.threesixty_view_wrapper {
+			width:240px;
+			height:150px;
+			margin-left:-120px;
+			margin-top:-75px;
+		}
+}
+
+img {
+	position:absolute;
+	visibility:hidden;
+	width:100%;
+	height:auto;
+}
+
+.preloader {
+	width:30px;
+	height:30px;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin-left:-15px;
+	margin-top:-15px;
+}
