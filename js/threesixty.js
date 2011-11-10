@@ -28,7 +28,7 @@ $(document).ready(function () {
 	function showThreesixty () {
 		$(".threesixty_images").fadeIn("slow");
 		
-		endFrame = 1260;
+		endFrame = 360;
 		refresh();
 	};
 	
