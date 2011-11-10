@@ -1,22 +1,15 @@
-html, body {
-  background:#ffffff;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-}
-
-.threesixty_view_wrapper {
+.threesixty {
 	position:absolute;
 	top:50%;
 	left:50%;
 	width:960px;
-	height: 600px;
+	height:600px;
 	margin-left:-480px;
 	margin-top:-250px;
 }
 
 @media	screen and (max-device-width: 1024px) and (orientation:portrait) {
-		.threesixty_view_wrapper {
+		.threesixty {
 			width:720px;
 			height:450px;
 			margin-left:-360px;
@@ -26,7 +19,7 @@ html, body {
 
 @media	screen and (max-device-width: 480px) and (orientation:landscape),
 		screen and (-webkit-min-device-pixel-ratio: 2) and (orientation:landscape) {
-		.threesixty_view_wrapper {
+		.threesixty {
 			width:360px;
 			height:225px;
 			margin-left:-180px;
@@ -36,7 +29,7 @@ html, body {
 
 @media	screen and (max-device-width: 480px) and (orientation:portrait),
 		screen and (-webkit-min-device-pixel-ratio: 2) and (orientation:portrait) {
-		.threesixty_view_wrapper {
+		.threesixty {
 			width:240px;
 			height:150px;
 			margin-left:-120px;
@@ -44,19 +37,28 @@ html, body {
 		}
 }
 
-img {
+.threesixty img {
 	position:absolute;
-	visibility:hidden;
+	top:0;
 	width:100%;
 	height:auto;
 }
 
+.current-image {
+	visibility:visible;
+	width:100%;
+}
+.previous-image {
+	visibility:hidden;
+	width:0;
+}
+
 .preloader {
-	width:30px;
-	height:30px;
 	position:absolute;
 	left:50%;
 	top:50%;
+	width:30px;
+	height:30px;
 	margin-left:-15px;
 	margin-top:-15px;
 }
