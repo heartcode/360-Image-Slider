@@ -42,7 +42,7 @@ $(document).ready(function () {
 			frames[0].addClass("current-image");
 			
 			$("#spinner").fadeOut("slow", function(){
-				spinner.hide();
+				//spinner.hide();
 				showThreesixty();
 			});
 		} else {
@@ -78,11 +78,11 @@ $(document).ready(function () {
 	*/
 	function addSpinner () {
 		spinner = new CanvasLoader("spinner");
-		spinner.setDiameter(30);
-		spinner.setDensity(60);
+		spinner.setShape("spiral");
+		spinner.setDiameter($(".preloader").width());
+		spinner.setDensity(120);
 		spinner.setRange(1);
 		spinner.setColor("#333333");
-		spinner.setFPS(24);
 		spinner.show();
 	};
 	
@@ -103,7 +103,7 @@ $(document).ready(function () {
 	$(".threesixty").live("touchstart", function (event) {
 		event.preventDefault();
 		pointer = pointers[1];
-		startPointerTracking(event);
+		dragging = true;
 	});
 	
 	/**
@@ -119,7 +119,7 @@ $(document).ready(function () {
 	*/
 	$(".threesixty").live("touchend", function (event) {
 		event.preventDefault();
-		stopPointerTracking(event);
+		dragging = false;
 	});
 	
 	/**
@@ -128,12 +128,12 @@ $(document).ready(function () {
 	$(".threesixty").mousedown(function (event) {
 		event.preventDefault();
 		pointer = pointers[0];
-		startPointerTracking(event);
+		dragging = true;
 	});
 	
 	$(document).mouseup(function (event){
 		event.preventDefault();
-		stopPointerTracking(event);
+		dragging = false;
 	});
 	/**
 	*
@@ -170,25 +170,6 @@ $(document).ready(function () {
 	};
 	
 	/**
-	*
-	* @param event {Object}
-	*/
-	function startPointerTracking (event) {
-		dragging = true;
-		pointerStartPosX = pointer === pointers[0] ? event.pageX : event.originalEvent.targetTouches[0].pageX;
-		monitorStartTime = new Date().getTime();
-	};
-	
-	/**
-	*
-	*/
-	function stopPointerTracking (event) {
-		dragging = false;
-		pointerEndPosX = pointer === pointers[0] ? event.pageX : event.originalEvent.targetTouches[0].pageX;
-		calculatePointerSpeed();
-	};
-	
-	/**
 	* 
 	*/
 	function trackPointer(event) {
@@ -222,7 +203,7 @@ $(document).ready(function () {
 	*/
 	function refresh () {
 		if (ticker === 0) {
-			ticker = self.setInterval(function () { render(); }, Math.round(1000 / 32));
+			ticker = self.setInterval(function () { render(); }, Math.round(1000 / 60));
 		}
 	};
 	
