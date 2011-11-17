@@ -26,7 +26,7 @@ $(document).ready(function () {
 	*
 	*/
 	function showThreesixty () {
-		$(".threesixty_images").fadeIn("slow");
+		$("#threesixty_images").fadeIn("slow");
 		
 		endFrame = 360;
 		refresh();
@@ -56,13 +56,7 @@ $(document).ready(function () {
 	function loadImage() {
 		
 		var li = document.createElement("li");
-		$(".threesixty_images").append(li);
-		
-		var id = loadedImages < 10 ? "00" + loadedImages.toString() : loadedImages.toString();
-		if (loadedImages >= 10 && loadedImages < 100) {
-			id = "0" + loadedImages.toString();
-		}
-		var imageName = sequence_name.split("###").join(id);
+		var imageName = "img/threesixty_" + (loadedImages + 1) + ".jpg";
 		var img = li.appendChild(document.createElement("img"));
 		img.setAttribute("src", imageName);
 		$(img).addClass("previous-image");
