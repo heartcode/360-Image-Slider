@@ -1,11 +1,9 @@
 $(document).ready(function () {
-	var pointers = ["mouse", "finger"];
-	var pointer;
+	var ready = false;
 	var dragging = false;
 	var pointerStartPosX = 0;
 	var pointerEndPosX = 0;
 	var pointerDistance = 0;
-	var pointerSpeed = 0;
 	
 	var monitorStartTime = 0;
 	var monitorInt = 10;
@@ -18,31 +16,37 @@ $(document).ready(function () {
 	var frames = [];
 	var endFrame = 0;
 	var loadedImages = 0;
-	var sequence_name = "img/rob_###.jpg";
 	
 	var spinner;
 	
-	/**
-	*
-	*/
-	function showThreesixty () {
-		$("#threesixty_images").fadeIn("slow");
-		
-		endFrame = 360;
-		refresh();
+	function addSpinner () {
+		spinner = new CanvasLoader("spinner");
+		spinner.setShape("spiral");
+		spinner.setDiameter(30);
+		spinner.setDensity(90);
+		spinner.setSpeed(3);
+		spinner.setColor("#333333");
+		spinner.show();
+		$("#spinner").fadeIn("slow");
 	};
 	
-	/**
-	* 
-	*/
+	function loadImage() {
+		var li = document.createElement("li");
+		var imageName = "img/threesixty_" + (loadedImages + 1) + ".jpg";
+		var image = $('<img>').attr('src', imageName).addClass("previous-image").appendTo(li);
+		frames.push(image);
+		$("#threesixty_images").append(li);
+		$(image).load(function() {
+			imageLoaded();
+		});
+	};
+	
 	function imageLoaded() {
-		++loadedImages;
-		if (loadedImages === totalFrames) {
-			frames[0].removeClass("previous-image");
-			frames[0].addClass("current-image");
-			
+		loadedImages++;
+		if (loadedImages == totalFrames) {
+			frames[0].removeClass("previous-image").addClass("current-image");;
 			$("#spinner").fadeOut("slow", function(){
-				//spinner.hide();
+				spinner.hide();
 				showThreesixty();
 			});
 		} else {
@@ -50,78 +54,40 @@ $(document).ready(function () {
 		}
 	};
 	
-	/**
-	* 
-	*/
-	function loadImage() {
+	function showThreesixty () {
+		$("#threesixty_images").fadeIn("slow");
 		
-		var li = document.createElement("li");
-		var imageName = "img/threesixty_" + (loadedImages + 1) + ".jpg";
-		var img = li.appendChild(document.createElement("img"));
-		img.setAttribute("src", imageName);
-		$(img).addClass("previous-image");
-		frames.push($(img));
-		
-		$(img).load(function() {
-			imageLoaded();
-		});
+		ready = true;
+		endFrame = -720;
+		refresh();
 	};
 	
-	/**
-	*
-	*/
-	function addSpinner () {
-		spinner = new CanvasLoader("spinner");
-		spinner.setShape("spiral");
-		spinner.setDiameter($(".preloader").width());
-		spinner.setDensity(120);
-		spinner.setRange(1);
-		spinner.setColor("#333333");
-		spinner.show();
+	addSpinner();
+	loadImage();	
+	
+	function getPointerEvent(event) {
+		return event.originalEvent.targetTouches ? event.originalEvent.targetTouches[0] : event;
 	};
 	
-	/**
-	*
-	*/
-	function init () {
-		addSpinner();
-		$("#spinner").hide().fadeIn("slow");
-		$(".threesixty_images").hide();
-		loadImage();
-	};
-	init();
-	
-	/**
-	*
-	*/
-	$(".threesixty").live("touchstart", function (event) {
+	$("#threesixty").live("touchstart", function (event) {
 		event.preventDefault();
-		pointer = pointers[1];
+		pointerStartPosX = getPointerEvent(event).pageX;
 		dragging = true;
 	});
 	
-	/**
-	*
-	*/
-	$(".threesixty").live("touchmove", function (event) {
+	$("#threesixty").live("touchmove", function (event) {
 		event.preventDefault();
 		trackPointer(event);
 	});
 	
-	/**
-	*
-	*/
-	$(".threesixty").live("touchend", function (event) {
+	$("#threesixty").live("touchend", function (event) {
 		event.preventDefault();
 		dragging = false;
 	});
 	
-	/**
-	*
-	*/
-	$(".threesixty").mousedown(function (event) {
+	$("#threesixty").mousedown(function (event) {
 		event.preventDefault();
-		pointer = pointers[0];
+		pointerStartPosX = getPointerEvent(event).pageX;
 		dragging = true;
 	});
 	
@@ -129,81 +95,46 @@ $(document).ready(function () {
 		event.preventDefault();
 		dragging = false;
 	});
-	/**
-	*
-	*/
+	
 	$(document).mousemove(function (event){	
 		event.preventDefault();
 		trackPointer(event);
 	});
 	
-	
-	/**
-	*
-	*/
 	function getNormalizedCurrentFrame() {
-		var c = -Math.ceil(currentFrame % (totalFrames));
+		var c = -Math.ceil(currentFrame % totalFrames);
 		if (c < 0) c += (totalFrames - 1);
 		return c;
 	};
 	
-	/**
-	*
-	*/
 	function hidePreviousImage() {
-		frames[getNormalizedCurrentFrame()].removeClass("current-image");
-		frames[getNormalizedCurrentFrame()].addClass("previous-image");
+		frames[getNormalizedCurrentFrame()].removeClass("current-image").addClass("previous-image");
 	};
 	
-	/**
-	*
-	*/
 	function showCurrentImage() {
-		frames[getNormalizedCurrentFrame()].removeClass("previous-image");
-		frames[getNormalizedCurrentFrame()].addClass("current-image");
+		frames[getNormalizedCurrentFrame()].removeClass("previous-image").addClass("current-image");
 	};
 	
-	/**
-	* 
-	*/
 	function trackPointer(event) {
-		if (dragging) {
-			pointerEndPosX = pointer === pointers[0] ? event.pageX : event.originalEvent.targetTouches[0].pageX;
-			
+		if (ready && dragging) {
+			pointerEndPosX = getPointerEvent(event).pageX;
 			if(monitorStartTime < new Date().getTime() - monitorInt) {
-				monitorStartTime = new Date().getTime();
-				calculatePointerSpeed();
+				pointerDistance = pointerEndPosX - pointerStartPosX;
+				endFrame = currentFrame + Math.ceil((totalFrames - 1) * speedMultiplier * (pointerDistance / $("#threesixty").width()));
+				
 				refresh();
-				pointerStartPosX = pointer === pointers[0] ? event.pageX : event.originalEvent.targetTouches[0].pageX;
-				if(!dragging) {
-					endFrame = currentFrame + Math.ceil((totalFrames - 1) * speedMultiplier * (pointerDistance / $(".threesixty").width()) * pointerSpeed);
-				} else {
-					endFrame = currentFrame + Math.ceil((totalFrames - 1) * speedMultiplier * (pointerDistance / $(".threesixty").width()));
-				}
+				monitorStartTime = new Date().getTime();
+				pointerStartPosX = getPointerEvent(event).pageX;
 			}
 		}
 	};
 	
-	/**
-	*
-	*/
-	function calculatePointerSpeed() {
-		pointerDistance = pointerEndPosX - pointerStartPosX;
-		pointerSpeed = pointerDistance / monitorInt;
-	};
-	
-	/**
-	*
-	*/
 	function refresh () {
 		if (ticker === 0) {
 			ticker = self.setInterval(function () { render(); }, Math.round(1000 / 60));
 		}
 	};
 	
-	/**
-	*
-	*/
 	function render () {
 		if(currentFrame !== endFrame)
 		{	

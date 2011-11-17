@@ -1,71 +1,19 @@
-.threesixty {
+#threesixty {
 	position:absolute;
+	overflow:hidden;
 	top:50%;
 	left:50%;
 	width:960px;
-	height:600px;
+	height:540px;
 	margin-left:-480px;
-	margin-top:-300px;
+	margin-top:-270px;
 }
 
-.preloader {
-	position:absolute;
-	left:50%;
-	top:50%;
-	width:40px;
-	height:40px;
-	margin-left:-20px;
-	margin-top:-50px;
+#threesixty_images {
+	display: none;
 }
 
-@media	screen and (max-device-width: 1024px) and (orientation:portrait) {
-		.threesixty {
-			width:720px;
-			height:450px;
-			margin-left:-360px;
-			margin-top:-225px;
-		}
-		.preloader {
-			width:30px;
-			height:30px;
-			margin-left:-15px;
-			margin-top:-25px;
-		}
-}
-
-@media	screen and (max-device-width: 480px) and (orientation:landscape),
-		screen and (-webkit-min-device-pixel-ratio: 2) and (orientation:landscape) {
-		.threesixty {
-			width:360px;
-			height:225px;
-			margin-left:-180px;
-			margin-top:-113px;
-		}
-		.preloader {
-			width:30px;
-			height:30px;
-			margin-left:-15px;
-			margin-top:-25px;
-		}
-}
-
-@media	screen and (max-device-width: 480px) and (orientation:portrait),
-		screen and (-webkit-min-device-pixel-ratio: 2) and (orientation:portrait) {
-		.threesixty {
-			width:320px;
-			height:200px;
-			margin-left:-160px;
-			margin-top:-100px;
-		}
-		.preloader {
-			width:30px;
-			height:30px;
-			margin-left:-15px;
-			margin-top:-25px;
-		}
-}
-
-.threesixty img {
+#threesixty img {
 	position:absolute;
 	top:0;
 	width:100%;
@@ -79,4 +27,44 @@
 .previous-image {
 	visibility:hidden;
 	width:0;
+}
+
+#spinner {
+	position:absolute;
+	left:50%;
+	top:50%;
+	width:30px;
+	height:30px;
+	margin-left:-15px;
+	margin-top:-15px;
+	display:none;
+}
+
+@media	screen and (max-device-width: 1024px) and (orientation:portrait) {
+	#threesixty {
+		width:720px;
+		height:450px;
+		margin-left:-360px;
+		margin-top:-225px;
+	}
+}
+
+@media	screen and (max-device-width: 480px) and (orientation:landscape),
+				screen and (-webkit-min-device-pixel-ratio: 2) and (orientation:landscape) {
+	#threesixty {
+		width:360px;
+		height:225px;
+		margin-left:-180px;
+		margin-top:-113px;
+	}
+}
+
+@media	screen and (max-device-width: 480px) and (orientation:portrait),
+				screen and (-webkit-min-device-pixel-ratio: 2) and (orientation:portrait) {
+	#threesixty {
+		width:320px;
+		height:200px;
+		margin-left:-160px;
+		margin-top:-100px;
+	}
 }
