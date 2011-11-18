@@ -24,6 +24,7 @@
 	visibility:visible;
 	width:100%;
 }
+
 .previous-image {
 	visibility:hidden;
 	width:0;
@@ -33,11 +34,22 @@
 	position:absolute;
 	left:50%;
 	top:50%;
-	width:30px;
-	height:30px;
-	margin-left:-15px;
-	margin-top:-15px;
+	width:90px;
+	height:90px;
+	margin-left:-45px;
+	margin-top:-50px;
 	display:none;
+}
+
+#spinner span {
+	position:absolute;
+	top:50%;
+	width:100%;
+	color:#333;
+	font:0.8em Arial, Verdana, sans;
+	text-align:center;
+	line-height:0.6em;
+	margin-top:-0.3em;
 }
 
 @media	screen and (max-device-width: 1024px) and (orientation:portrait) {
