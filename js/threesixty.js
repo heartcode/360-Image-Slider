@@ -34,7 +34,10 @@ $(document).ready(function () {
 			// The value of the end frame which the currentFrame will be tweened to during the sliding animation
 			endFrame = 0,
 			// We keep track of the loaded images by increasing every time a new image is added to the image slider
-			loadedImages = 0;
+			loadedImages = 0,
+			$document = $(document),
+			$container = $('#threesixty'),
+			$images = $('#threesixty_images');
 	
 	/**
 	* Adds a "spiral" shaped CanvasLoader instance to the #spinner div
@@ -71,7 +74,7 @@ $(document).ready(function () {
 		// We add the newly added image object (returned by jQuery) to the "frames" array.
 		frames.push(image);
 		// We add the <li> to the <ol>
-		$("#threesixty_images").append(li);
+		$images.append(li);
 		/*
 			Adds the "load" event handler to the new image.
 			When the event triggers it calls the "imageLoaded" function.
@@ -118,7 +121,7 @@ $(document).ready(function () {
 	*/
 	function showThreesixty () {
 		// Fades in the image slider by using the jQuery "fadeIn" method
-		$("#threesixty_images").fadeIn("slow");
+		$images.fadeIn("slow");
 		// Sets the "ready" variable to true, so the app now reacts to user interaction 
 		ready = true;
 		// Sets the endFrame to an initial value...
@@ -216,7 +219,7 @@ $(document).ready(function () {
 	/**
 	* Adds the jQuery "mousedown" event to the image slider wrapper.
 	*/
-	$("#threesixty").mousedown(function (event) {
+	$container.on("mousedown", function (event) {
 		// Prevents the original event handler behaciour
 		event.preventDefault();
 		// Stores the pointer x position as the starting position
@@ -229,7 +232,7 @@ $(document).ready(function () {
 	* Adds the jQuery "mouseup" event to the document. We use the document because we want to let the user to be able to drag
 	* the mouse outside the image slider as well, providing a much bigger "playground".
 	*/
-	$(document).mouseup(function (event){
+	$document.on("mouseup", function (event){
 		// Prevents the original event handler behaciour
 		event.preventDefault();
 		// Tells the pointer tracking function that the user finished dragging the pointer and it doesn't need to track the pointer changes anymore
@@ -240,7 +243,7 @@ $(document).ready(function () {
 	* Adds the jQuery "mousemove" event handler to the document. By using the document again we give the user a better user experience
 	* by providing more playing area for the mouse interaction.
 	*/
-	$(document).mousemove(function (event){
+	$document.on("mousemove", function (event){
 		// Prevents the original event handler behaciour
 		event.preventDefault();
 		// Starts tracking the pointer X position changes
@@ -250,7 +253,7 @@ $(document).ready(function () {
 	/**
 	*
 	*/
-	$("#threesixty").live("touchstart", function (event) {
+	$container.on("touchstart", function (event) {
 		// Prevents the original event handler behaciour
 		event.preventDefault();
 		// Stores the pointer x position as the starting position
@@ -262,7 +265,7 @@ $(document).ready(function () {
 	/**
 	*
 	*/
-	$("#threesixty").live("touchmove", function (event) {
+	$container.on("touchmove", function (event) {
 		// Prevents the original event handler behaciour
 		event.preventDefault();
 		// Starts tracking the pointer X position changes
@@ -272,7 +275,7 @@ $(document).ready(function () {
 	/**
 	*
 	*/
-	$("#threesixty").live("touchend", function (event) {
+	$container.on("touchend", function (event) {
 		// Prevents the original event handler behaciour
 		event.preventDefault();
 		// Tells the pointer tracking function that the user finished dragging the pointer and it doesn't need to track the pointer changes anymore
@@ -293,7 +296,7 @@ $(document).ready(function () {
 				// Calculates the distance between the pointer starting and ending position during the last tracking time period
 				pointerDistance = pointerEndPosX - pointerStartPosX;
 				// Calculates the endFrame using the distance between the pointer X starting and ending positions and the "speedMultiplier" values
-				endFrame = currentFrame + Math.ceil((totalFrames - 1) * speedMultiplier * (pointerDistance / $("#threesixty").width()));
+				endFrame = currentFrame + Math.ceil((totalFrames - 1) * speedMultiplier * (pointerDistance / $container.width()));
 				// Updates the image slider frame animation
 				refresh();
 				// restarts counting the pointer tracking period
